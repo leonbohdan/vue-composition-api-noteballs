@@ -1,12 +1,19 @@
 import { createApp } from 'vue';
-import {createRouter, createWebHashHistory} from "vue-router";
+import { createRouter, createWebHashHistory } from 'vue-router';
 import App from './App.vue';
 
-import './assets/main.css'; 
+import './assets/main.css';
+import VueNotes from '@/views/VueNotes.vue'; 
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: [],
+  routes: [
+    {
+      path: '/',
+      name: 'notes',
+      component: VueNotes,
+    },
+  ],
 });
 
 createApp(App)
