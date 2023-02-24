@@ -36,6 +36,7 @@ module.exports = {
     'vue/no-v-text-v-html-on-component': 0,
     'vue/valid-v-slot': ['error', { 'allowModifiers': true }],
     'vue/multi-word-component-names': 1,
+    'vue/no-multiple-template-root': 0,
     'vue/attributes-order': [2, {
       'order': [
         'DEFINITION',

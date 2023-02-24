@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="notes">
-    <h1>VueNotes</h1>
+  <div class="stats">
+    <h1>ViewStats</h1>
   </div>
 </template>
