@@ -8,14 +8,16 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['delete-note']);
+
 const characterLength = computed(() => {
   const description = props.note.content.length > 1 ? 'characters' : 'character';
 
   return `${props.note.content.length} ${description}`;
 });
 
-const deleteNote = (id) => {
-  console.log('deleteNote', id);
+const handleDeleteNote = () => {
+  emit('delete-note', props.note.id);
 };
 </script>
 
@@ -34,7 +36,13 @@ const deleteNote = (id) => {
     <footer class="card-footer">
       <a href="#" class="card-footer-item">Edit</a>
 
-      <a href="#" class="card-footer-item" @click.prevent="deleteNote(note.id)">Delete</a>
+      <a
+        href="#"
+        class="card-footer-item"
+        @click.prevent="handleDeleteNote"
+      >
+        Delete
+      </a>
     </footer>
   </div>
 </template>
