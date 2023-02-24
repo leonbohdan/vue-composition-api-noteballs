@@ -1,5 +1,8 @@
 <script setup>
 import { computed } from 'vue';
+import { useStoreNotes } from '@/stores/storeNotes.js';
+
+const storeNotes = useStoreNotes();
 
 const props = defineProps({
   note: {
@@ -8,17 +11,11 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['delete-note']);
-
 const characterLength = computed(() => {
   const description = props.note.content.length > 1 ? 'characters' : 'character';
 
   return `${props.note.content.length} ${description}`;
 });
-
-const handleDeleteNote = () => {
-  emit('delete-note', props.note.id);
-};
 </script>
 
 <template>
@@ -39,7 +36,7 @@ const handleDeleteNote = () => {
       <a
         href="#"
         class="card-footer-item"
-        @click.prevent="handleDeleteNote"
+        @click.prevent="storeNotes.deleteNote(note.id)"
       >
         Delete
       </a>
