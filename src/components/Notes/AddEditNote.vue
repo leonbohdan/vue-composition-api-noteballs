@@ -1,12 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 const props = defineProps({
-  // modelValue: {
-  //   type: String,
-  //   required: true,
-  // },
-  newNote: {
+  modelValue: {
     type: String,
     required: true,
   },
@@ -19,13 +15,12 @@ const emit = defineEmits(['update:model-value', 'update:note-value']);
   <div class="card has-background-success-dark p-4 mb-5">
     <div class="field">
       <div class="control">
-        <!--        v-model.trim="newNote"-->
         <textarea
           ref="newNoteRef"
-          :value="newNote"
+          :value="modelValue"
           class="textarea"
           placeholder="Add a new note"
-          @input="emit('update:note-value', newNote)"
+          @input="emit('update:model-value', $event.target.value)"
         ></textarea>
       </div>
     </div>

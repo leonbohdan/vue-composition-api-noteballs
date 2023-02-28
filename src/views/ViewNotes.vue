@@ -5,7 +5,7 @@ import AddEditNote from '@/components/Notes/AddEditNote.vue';
 import { useStoreNotes } from '@/stores/storeNotes.js';
 
 const storeNotes = useStoreNotes();
-const newNote = ref('asdfasdfasdf');
+const newNote = ref('note 1');
 const newNoteRef = ref(null);
 
 const addNote = () => {
@@ -19,10 +19,8 @@ const addNote = () => {
 
 <template>
   <div class="notes">
-    <!--    v-model="newNote"-->
     <AddEditNote
-      :new-note="newNote"
-      @update:note-value="newNote.value = $event"
+      v-model="newNote"
     >
       <template #buttons>
         <button
