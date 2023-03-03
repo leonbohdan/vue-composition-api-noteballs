@@ -1,26 +1,52 @@
 <script setup>
-// import AddEditNote from '@/components/Notes/AddEditNote.vue';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import AddEditNote from '@/components/Notes/AddEditNote.vue';
+import { useStoreNotes } from '@/stores/storeNotes.js';
 
+const storeNotes = useStoreNotes();
+
+const noteContent = ref('');
+
+const route = useRoute();
+
+noteContent.value = storeNotes.getNoteContent(route.params.id);
+
+const handleSaveNote = () => {
+  console.log('handleSaveNote');
+  const payload = {
+    id: route.params.id,
+    content: noteContent.value,
+  };
+
+  storeNotes.updateNote(payload);
+};
 </script>
 
 <template>
   <div class="edit-note">
-    <h1>
-      Edit Note with an id of: {{ $route.params.id }}
-    </h1>
+    <AddEditNote
+      v-model="noteContent"
+      bg-color="link"
+      placeholder="Edit note"
+      label="Edit note"
+    >
+      <template #buttons>
+        <button
+          class="button is-link is-light mr-2"
+          @click="$router.back()"
+        >
+          Cancel
+        </button>
 
-    <!--    <AddEditNote-->
-    <!--      v-model="newNote"-->
-    <!--    >-->
-    <!--      <template #buttons>-->
-    <!--        <button-->
-    <!--          class="button is-link has-background-success"-->
-    <!--          :disabled="!newNote"-->
-    <!--          @click="addNote"-->
-    <!--        >-->
-    <!--          Add new notes-->
-    <!--        </button>-->
-    <!--      </template>-->
-    <!--    </AddEditNote>-->
+        <button
+          class="button is-link has-background-link"
+          :disabled="!noteContent"
+          @click="handleSaveNote"
+        >
+          Save note
+        </button>
+      </template>
+    </AddEditNote>
   </div>
 </template>

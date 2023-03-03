@@ -5,22 +5,24 @@ import AddEditNote from '@/components/Notes/AddEditNote.vue';
 import { useStoreNotes } from '@/stores/storeNotes.js';
 
 const storeNotes = useStoreNotes();
-const newNote = ref('note 1');
-const newNoteRef = ref(null);
+const newNote = ref('');
+const addEditNoteRef = ref(null);
 
 const addNote = () => {
   storeNotes.addNote(newNote.value);
 
   newNote.value = '';
 
-  newNoteRef.value.focus();
+  addEditNoteRef.value.focusTextarea();
 };
 </script>
 
 <template>
   <div class="notes">
     <AddEditNote
+      ref="addEditNoteRef"
       v-model="newNote"
+      placeholder="Add a new note"
     >
       <template #buttons>
         <button

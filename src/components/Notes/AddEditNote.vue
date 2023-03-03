@@ -1,25 +1,56 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref } from 'vue';
+
+const textareaRef = ref(null);
 
 const props = defineProps({
   modelValue: {
     type: String,
     required: true,
   },
+
+  bgColor: {
+    type: String,
+    default: 'success',
+  },
+
+  placeholder: {
+    type: String,
+    default: 'Type something...',
+  },
+
+  label: {
+    type: String,
+  },
 });
 
 const emit = defineEmits(['update:model-value', 'update:note-value']);
+
+const focusTextarea = () => {
+  textareaRef.value.focus();
+};
+
+defineExpose({
+  focusTextarea,
+});
 </script>
 
 <template>
-  <div class="card has-background-success-dark p-4 mb-5">
+  <div :class="`card has-background-${bgColor}-dark p-4 mb-5`">
+    <label
+      v-if="label"
+      class="label has-text-white"
+    >
+      {{ label }}
+    </label>
+
     <div class="field">
       <div class="control">
         <textarea
-          ref="newNoteRef"
+          ref="textareaRef"
           :value="modelValue"
           class="textarea"
-          placeholder="Add a new note"
+          :placeholder="placeholder"
           @input="emit('update:model-value', $event.target.value)"
         ></textarea>
       </div>

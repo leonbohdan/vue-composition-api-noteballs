@@ -14,7 +14,15 @@ export const useStoreNotes = defineStore('storeNotes', {
       ],
     };
   },
-  getters: {},
+
+  getters: {
+    getNoteContent: ({ notes }) => {
+      return (id) => {
+        return notes.filter((note) => note.id === id)[0].content;
+      };
+    },
+  },
+
   actions: {
     addNote(content) {
       const note = {
@@ -27,9 +35,9 @@ export const useStoreNotes = defineStore('storeNotes', {
     deleteNote(id) {
       this.notes = this.notes.filter((note) => note.id !== id);
     },
-    editNote({ id, content }) {
+    updateNote({ id, content }) {
       this.notes = this.notes.map((note) => {
-        if (note.id !== id) {
+        if (note.id === id) {
           return {
             ...note,
             content,
