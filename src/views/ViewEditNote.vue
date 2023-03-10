@@ -14,7 +14,6 @@ const router = useRouter();
 noteContent.value = storeNotes.getNoteContent(route.params.id);
 
 const handleSaveNote = () => {
-  console.log('handleSaveNote');
   const payload = {
     id: route.params.id,
     content: noteContent.value,
