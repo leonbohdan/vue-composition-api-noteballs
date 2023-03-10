@@ -1,18 +1,11 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/api/firebase';
 
 export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
     return {
-      notes: [
-        {
-          id: 'id1',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam animi, asperiores commodi cum dolor dolores, eligendi enim ipsa ipsum officiis pariatur possimus praesentium quas quos ratione repellat similique voluptas voluptatibus!',
-        }, {
-          id: 'id2',
-          content: 'lores, eligendi enim ipsa ipsum officiis pariatur ellat similique voluptas voluptatibus!',
-        },
-      ],
+      notes: [],
     };
   },
 
@@ -37,6 +30,18 @@ export const useStoreNotes = defineStore('storeNotes', {
   },
 
   actions: {
+    async getNotes() {
+      const querySnapshot = await getDocs(collection(db, 'notes'));
+
+      querySnapshot.forEach((doc) => {
+        const note = {
+          id: doc.id,
+          content: doc.data().content,
+        };
+
+        this.notes.push(note);
+      });
+    },
     addNote(content) {
       const note = {
         id: new Date().getTime().toString(),
