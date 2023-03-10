@@ -25,7 +25,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:model-value', 'update:note-value']);
+const emit = defineEmits(['update:model-value']);
 
 const focusTextarea = () => {
   textareaRef.value.focus();

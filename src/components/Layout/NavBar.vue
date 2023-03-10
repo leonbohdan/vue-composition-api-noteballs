@@ -3,9 +3,9 @@ import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 
 const showMobileNav = ref(false);
-const closeNavbarBtn = ref(null);
+const NavbarBurgerRef = ref(null);
 
-onClickOutside(closeNavbarBtn, () => {
+onClickOutside(NavbarBurgerRef, () => {
   showMobileNav.value = false;
 });
 </script>
@@ -19,7 +19,7 @@ onClickOutside(closeNavbarBtn, () => {
         </div>
 
         <a
-          ref="closeNavbarBtn"
+          ref="NavbarBurgerRef"
           role="button"
           :class="['navbar-burger', {'is-active': showMobileNav}]"
           aria-label="menu"
