@@ -1,6 +1,7 @@
 <script setup>
 import { computed, reactive } from 'vue';
 import { useStoreNotes } from '@/stores/storeNotes.js';
+import { useDateFormat } from '@vueuse/core';
 import DeleteNoteModal from '@/components/Notes/DeleteNoteModal.vue';
 
 const storeNotes = useStoreNotes();
@@ -21,6 +22,10 @@ const characterLength = computed(() => {
 
   return `${props.note.content.length} ${description}`;
 });
+
+const formattedDate = computed(() => {
+  return useDateFormat(new Date(parseInt(props.note.date)), 'YYYY-MM-DD HH:mm').value;
+});
 </script>
 
 <template>
@@ -29,8 +34,10 @@ const characterLength = computed(() => {
       <div class="content">
         {{ note.content }}
 
-        <div class="has-text-right has-text-grey-light mt-2">
-          <small>{{ characterLength }}</small>
+        <div class="columns is-mobile has-text-grey-light mt-2">
+          <small class="column">{{ formattedDate }}</small>
+
+          <small class="column has-text-right">{{ characterLength }}</small>
         </div>
       </div>
     </div>

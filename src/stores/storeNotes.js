@@ -1,11 +1,16 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot, addDoc, doc, deleteDoc, updateDoc, query, orderBy } from 'firebase/firestore';
 import { db } from '@/api/firebase';
+
+const notesCollectionRef = collection(db, 'notes');
+
+const notesCollectionQuery = query(notesCollectionRef, orderBy('date', 'desc'));
 
 export const useStoreNotes = defineStore('storeNotes', {
   state: () => {
     return {
       notes: [],
+      isNotesLoading: false,
     };
   },
 
@@ -31,43 +36,38 @@ export const useStoreNotes = defineStore('storeNotes', {
 
   actions: {
     async getNotes() {
-      onSnapshot(collection(db, 'notes'), (querySnapshot) => {
+      this.isNotesLoading = true;
+
+      onSnapshot(notesCollectionQuery, (querySnapshot) => {
         const notes = [];
 
         querySnapshot.forEach((doc) => {
           const note = {
             id: doc.id,
             content: doc.data().content,
+            date: doc.data().date,
           };
 
           notes.push(note);
         });
 
         this.notes = notes;
+        this.isNotesLoading = false;
       });
     },
-    addNote(content) {
-      const note = {
-        id: new Date().getTime().toString(),
+    async addNote(content) {
+      const date = new Date().getTime().toString();
+
+      await addDoc(notesCollectionRef, {
         content,
-      };
-
-      this.notes.unshift(note);
-    },
-    deleteNote(id) {
-      this.notes = this.notes.filter((note) => note.id !== id);
-    },
-    updateNote({ id, content }) {
-      this.notes = this.notes.map((note) => {
-        if (note.id === id) {
-          return {
-            ...note,
-            content,
-          };
-        }
-
-        return note;
+        date,
       });
+    },
+    async deleteNote(id) {
+      await deleteDoc(doc(notesCollectionRef, id));
+    },
+    async updateNote({ id, content }) {
+      await updateDoc(doc(notesCollectionRef, id), { content });
     },
   },
 });
